@@ -41,20 +41,7 @@ class Store:
     def getAll(seft):
         conn = sqlite3.connect('Radio.db')
         cur = conn.cursor()
-        data = cur.execute("SELECT * FROM tbl_music;")
-        # columns = [id]
-        # for row in data:
-        #     # print(row)
-        #     keys = tuple(row[c] for c in columns)
-        #     print(keys)
-        #     print(f'{row["name"]} data inserted Succefully')
-        return data
-
-    def getMusicById(seft, id):
-        conn = sqlite3.connect('Radio.db')
-        cur = conn.cursor()
-        data = cur.execute("SELECT * FROM tbl_music WHERE id=" + str(id) + "")
-        print("daa: " + str(data))
+        data = cur.execute("SELECT * FROM tbl_music")
         return data
 
     # def data_retrieval(name):
