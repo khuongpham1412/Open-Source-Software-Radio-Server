@@ -107,5 +107,15 @@ def play_music(name):
         return send_file(path, mimetype="audio/wav")
 
 
+@app.route("/photo/<name>", methods=['GET'])
+def get_photo(name):
+    if request.method == 'GET':
+        path = os.path.abspath("assets/image/" + name)
+        file = open(
+            path, 'rb')
+        file.close()
+        return send_file(path, mimetype="image/png")
+
+
 if __name__ == '__main__':
     app.run()
