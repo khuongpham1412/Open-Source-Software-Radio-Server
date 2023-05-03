@@ -7,7 +7,8 @@ import json
 os.add_dll_directory(os.getcwd())
 
 app = Flask(__name__)
-app.config['UPLOAD_DIR'] = 'assets\\radio'
+app.config['UPLOAD_RADIO_DIR'] = 'assets\\radio'
+app.config['UPLOAD_IMAGE_DIR'] = 'assets\\image'
 api = Api(app)
 store = Store()
 
@@ -17,16 +18,30 @@ headers = {'Content-Type: audio/mpeg'}
 @app.route("/uploads", methods=['POST'])
 def upload_file():
     if request.method == 'POST':
-        file_to_upload = request.files['file']
-        # image = request.files['image']
-        data = json.loads(request.form['data'])
-        if file_to_upload and data:
-            fileName = str(datetime.now().timestamp()) + ".mp3"
-            file_to_upload.save(os.path.join(
-                app.config['UPLOAD_DIR'], fileName))
-            store.add_music(name=data['name'], image=data['image'],
-                            path=fileName)
-            return "Upload Success !!!"
+        try:
+            file_to_upload = request.files['file']
+            image = ""
+            if "image" in request.files:
+                image = request.files['image']
+
+            data = json.loads(request.form['data'])
+            if file_to_upload and data:
+                now = str(datetime.now().timestamp())
+                radio_name = now + ".mp3"
+                file_to_upload.save(os.path.join(
+                    app.config['UPLOAD_RADIO_DIR'], radio_name))
+                image_name = ""
+                if (image != ""):
+                    split_tup = os.path.splitext(image.filename)
+                    file_extension = split_tup[1]
+                    image_name = now + file_extension
+                    image.save(os.path.join(
+                        app.config['UPLOAD_IMAGE_DIR'], image_name))
+                store.add_music(name=data['name'],
+                                image=image_name, path=radio_name)
+                return "Upload Success !!!"
+        except:
+            return "Oh No! Exception :(((("
 
 
 @app.route("/delete-music/<id>", methods=['GET'])
@@ -34,10 +49,16 @@ def delete_music_by_id(id):
     if request.method == 'GET':
         music = store.getMusicById(id)
         if (len(music) > 0):
-            file_name = music[0][3]
-            file_path = os.path.abspath("assets/radio/" + file_name)
-            if os.path.exists(file_path):
-                os.remove(file_path)
+            image_name = music[0][2]
+            if image_name != "":
+                image_path = os.path.abspath("assets/image/" + image_name)
+                if os.path.exists(image_path):
+                    os.remove(image_path)
+
+            radio_name = music[0][3]
+            radio_path = os.path.abspath("assets/radio/" + radio_name)
+            if os.path.exists(radio_path):
+                os.remove(radio_path)
                 data = store.delete_music(id)
                 return "Delete Success !!!"
             else:
