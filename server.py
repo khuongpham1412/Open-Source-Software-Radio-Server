@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, send_file
+from flask import Flask, request, render_template, send_file, Response
 from flask_restful import Resource, Api, reqparse
 import os
 from services.db.connect import Store
@@ -23,8 +23,8 @@ def upload_file():
             image = ""
             if "image" in request.files:
                 image = request.files['image']
-
             data = json.loads(request.form['data'])
+
             if file_to_upload and data:
                 now = str(datetime.now().timestamp())
                 radio_name = now + ".mp3"
@@ -37,11 +37,16 @@ def upload_file():
                     image_name = now + file_extension
                     image.save(os.path.join(
                         app.config['UPLOAD_IMAGE_DIR'], image_name))
-                store.add_music(name=data['name'],
+                store.add_music(name=" " + data['name'],
                                 image=image_name, path=radio_name)
-                return "Upload Success !!!"
+                data = store.getMusicLast()
+                res = '{"id": ' + str(data[0]) + ',"name": "' + str(data[1]) + \
+                    '","image": "' + str(data[2]) + \
+                    '","path": "' + str(data[3]) + '"}'
+                return json.loads(res)
+            return Response("Oh No ! Exception :(((", status=400, mimetype='application/json')
         except:
-            return "Oh No! Exception :(((("
+            return Response("Oh No ! Exception :(((", status=400, mimetype='application/json')
 
 
 @app.route("/delete-music/<id>", methods=['GET'])

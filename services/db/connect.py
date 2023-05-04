@@ -58,6 +58,13 @@ class Store:
         data = cur.fetchall()
         return data
 
+    def getMusicLast(self):
+        conn = sqlite3.connect('Radio.db')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM tbl_music ORDER BY id DESC LIMIT 1")
+        result = cur.fetchone()
+        return result
+
     # def data_retrieval(name):
     #     conn = sqlite3.connect('Client_data.db')
     #     cur = conn.cursor()
