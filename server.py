@@ -24,10 +24,11 @@ def upload_file():
             if "image" in request.files:
                 image = request.files['image']
             data = json.loads(request.form['data'])
-
             if file_to_upload and data:
                 now = str(datetime.now().timestamp())
-                radio_name = now + ".mp3"
+                file_name, file_extension = os.path.splitext(file_to_upload.filename)
+                print(file_extension)
+                radio_name = now + file_extension
                 file_to_upload.save(os.path.join(
                     app.config['UPLOAD_RADIO_DIR'], radio_name))
                 image_name = ""

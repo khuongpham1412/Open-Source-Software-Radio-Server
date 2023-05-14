@@ -1,11 +1,17 @@
 import sqlite3
-import json
+import psycopg2
 
 
 class Store:
-    # def __init__(self, name, image, path):
-    #     self.name = name
-
+    def connect(seft):
+        conn = psycopg2.connect(
+            database = "Radio",
+            user = "postgres",
+            password = "123456",
+            host = "localhost",
+            port = '5432'
+        )
+        return conn
     def sql_database(seft):
         conn = sqlite3.connect('Radio.db')
         conn.execute(
@@ -20,7 +26,8 @@ class Store:
         conn.close()
 
     def add_music(seft, name, image, path):
-        conn = sqlite3.connect('Radio.db')
+        # conn = sqlite3.connect('Radio.db')
+        conn = Store.connect(seft)
         cursor = conn.cursor()
         params = (name, image, path)
         cursor.execute(
