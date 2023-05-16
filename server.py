@@ -4,6 +4,7 @@ import os
 from services.db.connect import Store
 from datetime import datetime
 import json
+import shutil
 
 #os.add_dll_directory(os.getcwd())
 
@@ -29,8 +30,9 @@ def upload_file():
                 now = str(datetime.now().timestamp())
                 file_name, file_extension = os.path.splitext(file_to_upload.filename)
                 radio_name = now + file_extension
-                # file_to_upload.save(os.path.join( r"assets\\radio", radio_name))
-                # return {"radio": radio_name, "image": image.filename}
+                shutil.move(r"C:\\Users\\ASUS\\Downloads\\suzume.jpg", r"assets\\image")
+                # file_to_upload.save(os.path.join( r"assets\\radio", "C:\Users\ASUS\Downloads"))
+                return {"radio": radio_name, "image": image.filename}
                 image_name = ""
                 if (image != ""):
                     split_tup = os.path.splitext(image.filename)
@@ -38,8 +40,8 @@ def upload_file():
                     image_name = now + file_extension
                     # image.save(os.path.join(
                     #     app.config['UPLOAD_IMAGE_DIR'], image_name))
-                store.add_music(name=" " + data['name'],
-                                image=image_name, path=radio_name)
+                # store.add_music(name=" " + data['name'],
+                #                 image=image_name, path=radio_name)
                 data = store.getMusicLast()
                 res = '{"id": ' + str(data[0]) + ',"name": "' + str(data[1]) + \
                     '","image": "' + str(data[2]) + \
