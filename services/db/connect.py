@@ -13,18 +13,6 @@ class Store:
             port = 5432
         )
         return conn
-    # def sql_database(self):
-    #     conn = sqlite3.connect('Radio.db')#SERIAL
-    #     conn.execute(
-    #         'CREATE TABLE IF NOT EXISTS tbl_radio (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, image TEXT, path TEXT NOT NULL );')
-    #     conn.commit()
-    #     conn.close()
-
-    # def delete_table(self, name):
-    #     conn = sqlite3.connect('Radio.db')
-    #     conn.execute('DROP TABLE tbl_radio;')
-    #     conn.commit()
-    #     conn.close()
 
     def add_music(self, name, image, path):
         conn = Store.connect(self)
@@ -92,3 +80,16 @@ class Store:
 # data = test.getAll()
 # for item in data:
 #     print(item)
+
+# def sql_database(self):
+    #     conn = sqlite3.connect('Radio.db')#SERIAL
+    #     conn.execute(
+    #         'CREATE TABLE IF NOT EXISTS tbl_radio (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, image TEXT, path TEXT NOT NULL );')
+    #     conn.commit()
+    #     conn.close()
+
+    # def delete_table(self, name):
+    #     conn = sqlite3.connect('Radio.db')
+    #     conn.execute('DROP TABLE tbl_radio;')
+    #     conn.commit()
+    #     conn.close()
