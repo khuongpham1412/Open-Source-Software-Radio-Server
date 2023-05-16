@@ -3,72 +3,72 @@ import psycopg2
 
 
 class Store:
-    def connect(seft):
+    def connect(self):
+        #postgres://db_radio_app_8bxp_user:sVZhC8jFkHoq1C6GwMlJ0NpqLAPfx2ko@dpg-chho6ngrddl9a74f1pe0-a.oregon-postgres.render.com/db_radio_app_8bxp
         conn = psycopg2.connect(
-            database = "Radio",
-            user = "postgres",
-            password = "123456",
-            host = "localhost",
-            port = '5432'
+            database = "db_radio_app_8bxp",
+            user = "db_radio_app_8bxp_user",
+            password = "sVZhC8jFkHoq1C6GwMlJ0NpqLAPfx2ko",
+            host = "dpg-chho6ngrddl9a74f1pe0-a.oregon-postgres.render.com",
+            port = 5432
         )
         return conn
-    def sql_database(seft):
-        conn = sqlite3.connect('Radio.db')
-        conn.execute(
-            'CREATE TABLE IF NOT EXISTS tbl_music (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, image TEXT, path TEXT NOT NULL );')
-        conn.commit()
-        conn.close()
+    # def sql_database(self):
+    #     conn = sqlite3.connect('Radio.db')#SERIAL
+    #     conn.execute(
+    #         'CREATE TABLE IF NOT EXISTS tbl_radio (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, image TEXT, path TEXT NOT NULL );')
+    #     conn.commit()
+    #     conn.close()
 
-    def delete_table(seft, name):
-        conn = sqlite3.connect('Radio.db')
-        conn.execute('DROP TABLE tbl_music;')
-        conn.commit()
-        conn.close()
+    # def delete_table(self, name):
+    #     conn = sqlite3.connect('Radio.db')
+    #     conn.execute('DROP TABLE tbl_radio;')
+    #     conn.commit()
+    #     conn.close()
 
-    def add_music(seft, name, image, path):
-        # conn = sqlite3.connect('Radio.db')
-        conn = Store.connect(seft)
+    def add_music(self, name, image, path):
+        conn = Store.connect(self)
         cursor = conn.cursor()
         params = (name, image, path)
         cursor.execute(
-            "INSERT INTO tbl_music (name, image, path) VALUES " + str(params) + ";")
+           "INSERT INTO tbl_radio (name, image, path) VALUES " + str(params) + ";")
 
         conn.commit()
         print('Add Music Success !!!')
         conn.close()
 
-    def delete_music(seft, id):
-        conn = sqlite3.connect('Radio.db')
+    def delete_music(self, id):
+        conn = Store.connect(self)
         cursor = conn.cursor()
         cursor.execute(
-            "DELETE FROM tbl_music WHERE id=" + str(id) + ";")
+            "DELETE FROM tbl_radio WHERE id=" + str(id) + ";")
         conn.commit()
         print('Delete Music Success !!!')
         conn.close()
 
-    def getAll(seft):
-        conn = sqlite3.connect('Radio.db')
+    def getAll(self):
+        conn = Store.connect(self)
         cur = conn.cursor()
-        data = cur.execute("SELECT * FROM tbl_music;")
+        data = cur.execute("SELECT * FROM tbl_radio;")
+        return cur.fetchall()
         # columns = [id]
         # for row in data:
         #     # print(row)
         #     keys = tuple(row[c] for c in columns)
         #     print(keys)
         #     print(f'{row["name"]} data inserted Succefully')
-        return cur.fetchall()
 
-    def getMusicById(seft, id):
-        conn = sqlite3.connect('Radio.db')
+    def getMusicById(self, id):
+        conn = Store.connect(self)
         cur = conn.cursor()
-        data = cur.execute("SELECT * FROM tbl_music WHERE id=" + str(id) + "")
+        data = cur.execute("SELECT * FROM tbl_radio WHERE id=" + str(id) + "")
         data = cur.fetchall()
         return data
 
     def getMusicLast(self):
-        conn = sqlite3.connect('Radio.db')
+        conn = Store.connect(self)
         cur = conn.cursor()
-        cur.execute("SELECT * FROM tbl_music ORDER BY id DESC LIMIT 1")
+        cur.execute("SELECT * FROM tbl_radio ORDER BY id DESC LIMIT 1")
         result = cur.fetchone()
         return result
 

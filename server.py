@@ -13,7 +13,7 @@ api = Api(app)
 store = Store()
 
 headers = {'Content-Type: audio/mpeg'}
-
+#postgres://db_radio_app_user:sJYleDSbvhy2VHvpEpcmRawkI3h7ujXw@dpg-chglomak728sd6hfbvs0-a.oregon-postgres.render.com/db_radio_app
 
 @app.route("/uploads", methods=['POST'])
 def upload_file():
@@ -27,7 +27,6 @@ def upload_file():
             if file_to_upload and data:
                 now = str(datetime.now().timestamp())
                 file_name, file_extension = os.path.splitext(file_to_upload.filename)
-                print(file_extension)
                 radio_name = now + file_extension
                 file_to_upload.save(os.path.join(
                     app.config['UPLOAD_RADIO_DIR'], radio_name))
@@ -45,9 +44,9 @@ def upload_file():
                     '","image": "' + str(data[2]) + \
                     '","path": "' + str(data[3]) + '"}'
                 return json.loads(res)
-            return Response("Oh No ! Exception :(((", status=400, mimetype='application/json')
+            return Response("Oh No ! Exception  haiz:(((", status=400, mimetype='application/json')
         except:
-            return Response("Oh No ! Exception :(((", status=400, mimetype='application/json')
+            return Response("Oh No ! Exception nkjn:(((", status=400, mimetype='application/json')
 
 
 @app.route("/delete-music/<id>", methods=['GET'])
