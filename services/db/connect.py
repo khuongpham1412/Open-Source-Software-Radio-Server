@@ -6,10 +6,10 @@ class Store:
     def connect(self):
         #postgres://db_radio_app_8bxp_user:sVZhC8jFkHoq1C6GwMlJ0NpqLAPfx2ko@dpg-chho6ngrddl9a74f1pe0-a.oregon-postgres.render.com/db_radio_app_8bxp
         conn = psycopg2.connect(
-            database = "db_radio_app_8bxp",
-            user = "db_radio_app_8bxp_user",
-            password = "sVZhC8jFkHoq1C6GwMlJ0NpqLAPfx2ko",
-            host = "dpg-chho6ngrddl9a74f1pe0-a.oregon-postgres.render.com",
+            database = "postgres",
+            user = "postgres",
+            password = "123456",
+            host = "localhost",
             port = 5432
         )
         return conn
