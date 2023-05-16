@@ -29,9 +29,9 @@ def upload_file():
                 now = str(datetime.now().timestamp())
                 file_name, file_extension = os.path.splitext(file_to_upload.filename)
                 radio_name = now + file_extension
-                return {"radio": radio_name, "image": image.filename}
                 file_to_upload.save(os.path.join(
                     app.config['UPLOAD_RADIO_DIR'], radio_name))
+                return {"radio": radio_name, "image": image.filename}
                 image_name = ""
                 if (image != ""):
                     split_tup = os.path.splitext(image.filename)
