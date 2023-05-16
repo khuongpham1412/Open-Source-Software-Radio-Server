@@ -25,28 +25,26 @@ def upload_file():
             if "image" in request.files:
                 image = request.files['image']
             data = json.loads(request.form['data'])
-            print(data)
-            return data
-            # if file_to_upload and data:
-            #     now = str(datetime.now().timestamp())
-            #     file_name, file_extension = os.path.splitext(file_to_upload.filename)
-            #     radio_name = now + file_extension
-            #     file_to_upload.save(os.path.join(
-            #         app.config['UPLOAD_RADIO_DIR'], radio_name))
-            #     image_name = ""
-            #     if (image != ""):
-            #         split_tup = os.path.splitext(image.filename)
-            #         file_extension = split_tup[1]
-            #         image_name = now + file_extension
-            #         image.save(os.path.join(
-            #             app.config['UPLOAD_IMAGE_DIR'], image_name))
-            #     store.add_music(name=" " + data['name'],
-            #                     image=image_name, path=radio_name)
-            #     data = store.getMusicLast()
-            #     res = '{"id": ' + str(data[0]) + ',"name": "' + str(data[1]) + \
-            #         '","image": "' + str(data[2]) + \
-            #         '","path": "' + str(data[3]) + '"}'
-            #     return json.loads(res)
+            if file_to_upload and data:
+                now = str(datetime.now().timestamp())
+                file_name, file_extension = os.path.splitext(file_to_upload.filename)
+                radio_name = now + file_extension
+                file_to_upload.save(os.path.join(
+                    app.config['UPLOAD_RADIO_DIR'], radio_name))
+                image_name = ""
+                if (image != ""):
+                    split_tup = os.path.splitext(image.filename)
+                    file_extension = split_tup[1]
+                    image_name = now + file_extension
+                    image.save(os.path.join(
+                        app.config['UPLOAD_IMAGE_DIR'], image_name))
+                store.add_music(name=" " + data['name'],
+                                image=image_name, path=radio_name)
+                data = store.getMusicLast()
+                res = '{"id": ' + str(data[0]) + ',"name": "' + str(data[1]) + \
+                    '","image": "' + str(data[2]) + \
+                    '","path": "' + str(data[3]) + '"}'
+                return json.loads(res)
             return Response("Oh No ! Exception  haiz:(((", status=400, mimetype='application/json')
         except:
             return Response("Oh No ! Exception nkjn:(((", status=400, mimetype='application/json')
