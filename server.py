@@ -4,7 +4,7 @@ import os
 from services.db.connect import Store
 from datetime import datetime
 import json
-os.add_dll_directory(os.getcwd())
+#os.add_dll_directory(os.getcwd())
 
 app = Flask(__name__)
 app.config['UPLOAD_RADIO_DIR'] = 'assets\\radio'
